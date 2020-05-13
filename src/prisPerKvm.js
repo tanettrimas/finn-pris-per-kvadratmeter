@@ -63,11 +63,13 @@ const mutationObserver = new MutationObserver(function(mutations) {
     
     for (const housingCard of housingCardList) {
       try {
-        const contentKeys = housingCard.querySelector('.ads__unit__content__keys')
         const alreadyAppended = housingCard.querySelector('.priceSqm')
+
         if (alreadyAppended) {
           continue;
         }
+
+        const contentKeys = housingCard.querySelector('.ads__unit__content__keys')
         const [squareMetreElement, priceElement] = [...contentKeys.childNodes]
         const isAdCampaign = !squareMetreElement || !priceElement
     
@@ -75,7 +77,9 @@ const mutationObserver = new MutationObserver(function(mutations) {
           // Ad without price
           continue
         }
-    
+
+        const totalPriceDiv = housingCard.querySelector('div > .u-float-left').children[1];
+        const basePrice = totalPriceDiv.textContent.split('kr')[0];
         const priceList = priceElement.textContent.replace('kr', '').trim().split(/\s/)
     
         if (priceList[0].toLowerCase() === 'solgt') {
@@ -83,15 +87,33 @@ const mutationObserver = new MutationObserver(function(mutations) {
           continue
         }
 
-        const squareMetres = parseInt(squareMetreElement.textContent.split(' ')[0])
-        const initialPrice = parseInt(priceList.join(''))
-        const pricePerSquareMetre = formatPricePretty(initialPrice / squareMetres)
+        // When there is a square metre range, use the highest value as factor
+        const squareMetres = squareMetreElement.textContent.includes('-') ? parseInt(squareMetreElement.textContent.split('-')[1]) : parseInt(squareMetreElement.textContent.split(' ')[0])
+
+        const finalBasenumber = extractPrice(basePrice, priceList);
+        const inPrice = finalBasenumber / squareMetres
+        const pricePerSquareMetre = formatPricePretty(inPrice)
     
         setPricesInDOM(pricePerSquareMetre, housingCard)
       } catch (error) { 
         console.error(error)
         break;
       }
+    }
+
+    function extractPrice(basePrice, priceList) {
+      let finalBasenumber
+      if (basePrice.toLowerCase().includes('totalpris')) {
+        finalBasenumber = basePrice.toLowerCase().replace('totalpris: ', '');
+        // When there is a price range, use the highest value as factor
+        finalBasenumber = finalBasenumber.includes('-') ? finalBasenumber.split('-')[1] : finalBasenumber;
+        finalBasenumber = finalBasenumber.replace(/\s+/g, '')
+      }
+      else {
+        // Use "prisantydning"
+        finalBasenumber = priceList.join('')
+      }
+      return parseInt(finalBasenumber)
     }
   }
 
