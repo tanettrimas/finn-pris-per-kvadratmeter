@@ -9,9 +9,6 @@
       "js": ["prisPerKvm.js"]
     }
   ],
-  "developer": {
-    "name": "Tanet Trimas",
-    "url": "https://github.com/tanettrimas"
-  }
-
+  "author": "Tanet Trimas",
+  "homepage_url": "https://github.com/tanettrimas"
 }
