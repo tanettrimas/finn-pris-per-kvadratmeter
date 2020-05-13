@@ -5,7 +5,6 @@
   "icons": {
     "16": "finn-icon.png"
   },
-  "default_locale": "nb",
   "manifest_version": 2,
   "content_scripts": [
     {
