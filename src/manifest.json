@@ -1,6 +1,6 @@
 {
   "name": "Finn Pris-per-kvadratmeter",
-  "version": "1.0",
+  "version": "0.0.0.1",
   "description": "Er du lei av å måtte manuelt regne ut kvadratmeterprisen når du leter etter drømmeboligen? Bruk denne til å regne det ut for deg!",
   "manifest_version": 2,
   "content_scripts": [
