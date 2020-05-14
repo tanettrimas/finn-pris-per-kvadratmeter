@@ -8,7 +8,15 @@
   "manifest_version": 2,
   "content_scripts": [
     {
-      "matches": ["https://www.finn.no/realestate/homes/search.html*"],
+      "matches": [
+        "https://www.finn.no/realestate/homes/search.html*",
+        "https://www.finn.no/realestate/newbuildings/search.html*",
+        "https://www.finn.no/realestate/plots/search.html*",
+        "https://www.finn.no/realestate/leisuresale/search.html*",
+        "https://www.finn.no/realestate/abroad/search.html*",
+        "https://www.finn.no/realestate/leisureplots/search.html*",
+        "https://www.finn.no/realestate/businesssale/search.html*"
+      ],
       "js": ["prisPerKvm.js"]
     }
   ],
