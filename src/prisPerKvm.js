@@ -37,14 +37,16 @@ const mutationObserver = new MutationObserver(function(mutations) {
     function formatPricePretty(price) {
       const initialPrice = price.toFixed(0)
       const priceArray = initialPrice.split('')
-    
+      let finalPrice = ''
+
       if (priceArray.length < 4) {
-        return priceArray.join('')
+        finalPrice = priceArray.join('')
+        return finalPrice += ' kr'
       }
     
       let size = priceArray.length % 3;
       let counter = 0;
-      let finalPrice = ''
+      
     
       while (finalPrice.trim().replace(/\s+/g, '').length !== initialPrice.length) {
         if (size !== 0) {
@@ -57,7 +59,7 @@ const mutationObserver = new MutationObserver(function(mutations) {
         counter += 3;
         continue;
       }
-    
+
       return finalPrice += 'kr'
     }
     
@@ -73,27 +75,31 @@ const mutationObserver = new MutationObserver(function(mutations) {
         const [squareMetreElement, priceElement] = [...contentKeys.childNodes]
         const isAdCampaign = !squareMetreElement || !priceElement
     
-        if(isAdCampaign) {
+        if (isAdCampaign) {
           // Ad without price
           continue
         }
 
-        const totalPriceDiv = housingCard.querySelector('div > .u-float-left').children[1];
-        const basePrice = totalPriceDiv.textContent.split('kr')[0];
+        const priceStats = [...housingCard.querySelector('div > .u-float-left').children]
+        const totalPriceDiv = priceStats.find(e => e.textContent && e.textContent.toLowerCase().includes('totalpris'))
         const priceList = priceElement.textContent.replace('kr', '').trim().split(/\s/)
-    
+        // If the card does not have totalprice at all in the element, just use the prisantydning element
+        const basePrice = !!totalPriceDiv && totalPriceDiv.textContent.length 
+          ? totalPriceDiv.textContent.split('kr')[0] 
+          : priceList      
+        
         if (priceList[0].toLowerCase() === 'solgt') {
           // Drop to calculate if the property is sold
           continue
         }
 
         // When there is a square metre range, use the highest value as factor
-        const squareMetres = squareMetreElement.textContent.includes('-') ? parseInt(squareMetreElement.textContent.split('-')[1]) : parseInt(squareMetreElement.textContent.split(' ')[0])
-
+        const squareMetres = squareMetreElement.textContent.includes('-') 
+          ? parseInt(squareMetreElement.textContent.split('-')[1]) 
+          : parseInt(squareMetreElement.textContent.split('m²')[0].replace(/\s+/g, ''))
         const finalBasenumber = extractPrice(basePrice, priceList);
         const inPrice = finalBasenumber / squareMetres
         const pricePerSquareMetre = formatPricePretty(inPrice)
-    
         setPricesInDOM(pricePerSquareMetre, housingCard)
       } catch (error) { 
         console.error(error)
@@ -103,7 +109,7 @@ const mutationObserver = new MutationObserver(function(mutations) {
 
     function extractPrice(basePrice, priceList) {
       let finalBasenumber
-      if (basePrice.toLowerCase().includes('totalpris')) {
+      if (typeof basePrice === 'string' && basePrice.toLowerCase().includes('totalpris')) {
         finalBasenumber = basePrice.toLowerCase().replace('totalpris: ', '');
         // When there is a price range, use the highest value as factor
         finalBasenumber = finalBasenumber.includes('-') ? finalBasenumber.split('-')[1] : finalBasenumber;
