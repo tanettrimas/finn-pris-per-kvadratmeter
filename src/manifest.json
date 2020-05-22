@@ -1,6 +1,6 @@
 {
   "name": "Finn Pris-per-kvadratmeter",
-  "version": "0.0.0.2",
+  "version": "1.0.12",
   "description": "Er du lei av å måtte manuelt regne ut kvadratmeterprisen når du leter etter drømmeboligen? Bruk denne til å regne det ut for deg!",
   "icons": {
     "16": "finn-icon.png"
@@ -17,7 +17,9 @@
         "https://www.finn.no/realestate/leisureplots/search.html*",
         "https://www.finn.no/realestate/businesssale/search.html*"
       ],
-      "js": ["prisPerKvm.js"]
+      "js": [
+        "prisPerKvm.js"
+      ]
     }
   ],
   "author": "Tanet Trimas",
