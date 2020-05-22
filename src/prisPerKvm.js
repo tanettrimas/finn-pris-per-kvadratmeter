@@ -1,6 +1,5 @@
 const adList = document.querySelector('.ads--list')
 const RENDER_CHECK = 10;
-
 // Observer for catching DOM changes
 const mutationObserver = new MutationObserver(function(mutations) {
   let removedCount = 0

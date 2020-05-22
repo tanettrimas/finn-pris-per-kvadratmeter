@@ -2,3 +2,7 @@
 sandbox
 TODO.md
 release-*
+node_modules
+.env
+web-ext-artifacts
+*.xpi
