@@ -1,9 +1,9 @@
 {
   "name": "Finn Pris-per-kvadratmeter",
-  "version": "1.0.12",
+  "version": "1.0.13",
   "description": "Er du lei av å måtte manuelt regne ut kvadratmeterprisen når du leter etter drømmeboligen? Bruk denne til å regne det ut for deg!",
   "icons": {
-    "16": "finn-icon.png"
+    "16": "icons/finn-icon.png"
   },
   "manifest_version": 2,
   "content_scripts": [
