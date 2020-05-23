@@ -1,4 +1,5 @@
 .vscode
+dist
 sandbox
 TODO.md
 release-*
