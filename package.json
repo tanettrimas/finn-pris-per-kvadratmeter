@@ -35,7 +35,7 @@
     "web-ext-submit": "4.2.0",
     "web-ext-webpack-plugin": "github:tanettrimas/web-ext-webpack-plugin",
     "webpack": "4.43.0",
-    "webpack-cli": "3.2.11",
+    "webpack-cli": "3.2.3",
     "webpack-extension-manifest-plugin": "^0.5.0"
   },
   "webExt": {
