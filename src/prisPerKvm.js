@@ -1,7 +1,10 @@
+import setPricesInDOM from './helpers/setPricesInDOM'
+import getPricePerSquareMeter from './getPricePerSquareMeter'
+
 const adList = document.querySelector('.ads--list')
 const RENDER_CHECK = 10;
 // Observer for catching DOM changes
-const mutationObserver = new MutationObserver(function(mutations) {
+const mutationObserver = new MutationObserver(mutations => {
   let removedCount = 0
   let addedCount = 0;
   mutations.forEach((mutation) => {
@@ -21,46 +24,6 @@ const mutationObserver = new MutationObserver(function(mutations) {
 
   function main() {
     const housingCardList = document.querySelectorAll('article > .ads__unit__content')
-
-    function setPricesInDOM(pricePerSquareMetre, housingCard) {
-      const priceKvmContentDiv = document.createElement('div')
-      const priceKvmTextDiv = document.createElement('div')
-      const priceKvmPriceDiv = document.createElement('div')
-      priceKvmContentDiv.classList.add('ads__unit__content__keys', 'priceSqm')
-      priceKvmPriceDiv.textContent = pricePerSquareMetre
-      priceKvmTextDiv.textContent = "Pris per kvadratmeter"
-      priceKvmContentDiv.append(priceKvmTextDiv, priceKvmPriceDiv)
-      housingCard.appendChild(priceKvmContentDiv)
-    }
-    
-    function formatPricePretty(price) {
-      const initialPrice = price.toFixed(0)
-      const priceArray = initialPrice.split('')
-      let finalPrice = ''
-
-      if (priceArray.length < 4) {
-        finalPrice = priceArray.join('')
-        return finalPrice += ' kr'
-      }
-    
-      let size = priceArray.length % 3;
-      let counter = 0;
-      
-    
-      while (finalPrice.trim().replace(/\s+/g, '').length !== initialPrice.length) {
-        if (size !== 0) {
-          finalPrice += `${priceArray.slice(counter, size).join('')} `
-          counter = size
-          size = 0;
-          continue
-        }
-        finalPrice += `${priceArray.slice(counter, counter + 3).join('')} `
-        counter += 3;
-        continue;
-      }
-
-      return finalPrice += 'kr'
-    }
     
     for (const housingCard of housingCardList) {
       try {
@@ -71,8 +34,8 @@ const mutationObserver = new MutationObserver(function(mutations) {
         }
 
         const contentKeys = housingCard.querySelector('.ads__unit__content__keys')
-        const [squareMetreElement, priceElement] = [...contentKeys.childNodes]
-        const isAdCampaign = !squareMetreElement || !priceElement
+        const [squareMeterElement, priceElement] = [...contentKeys.childNodes]
+        const isAdCampaign = !squareMeterElement || !priceElement
     
         if (isAdCampaign) {
           // Ad without price
@@ -93,35 +56,16 @@ const mutationObserver = new MutationObserver(function(mutations) {
         }
 
         // When there is a square metre range, use the highest value as factor
-        const squareMetres = squareMetreElement.textContent.includes('-') 
-          ? parseInt(squareMetreElement.textContent.split('-')[1]) 
-          : parseInt(squareMetreElement.textContent.split('m²')[0].replace(/\s+/g, ''))
-        const finalBasenumber = extractPrice(basePrice, priceList);
-        const inPrice = finalBasenumber / squareMetres
-        const pricePerSquareMetre = formatPricePretty(inPrice)
+        const pricePerSquareMetre = getPricePerSquareMeter(squareMeterElement, basePrice, priceList);
+
         setPricesInDOM(pricePerSquareMetre, housingCard)
       } catch (error) { 
         console.error(error)
         break;
       }
     }
-
-    function extractPrice(basePrice, priceList) {
-      let finalBasenumber
-      if (typeof basePrice === 'string' && basePrice.toLowerCase().includes('totalpris')) {
-        finalBasenumber = basePrice.toLowerCase().replace('totalpris: ', '');
-        // When there is a price range, use the highest value as factor
-        finalBasenumber = finalBasenumber.includes('-') ? finalBasenumber.split('-')[1] : finalBasenumber;
-        finalBasenumber = finalBasenumber.replace(/\s+/g, '')
-      }
-      else {
-        // Use "prisantydning"
-        finalBasenumber = priceList.join('')
-      }
-      return parseInt(finalBasenumber)
-    }
   }
 
   main()
 
-  mutationObserver.observe(adList, { childList: true })  
+  mutationObserver.observe(adList, { childList: true })
