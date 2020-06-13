@@ -1,4 +1,4 @@
-import formatPricePretty from '../src/helpers/formatPricePretty'
+import formatPricePretty from '../../src/helpers/formatPricePretty'
 
 describe('formatPricePretty', () => {
   it('should return a string', () => {

@@ -1,12 +1,12 @@
 import extractPrice from './helpers/extractPrice'
 import formatPricePretty from './helpers/formatPricePretty'
 
-export default function getPricePerSquareMeter(squareMetreElement, basePrice, priceList) {
-  const squareMetres = squareMetreElement.textContent.includes('-')
-    ? parseInt(squareMetreElement.textContent.split('-')[1])
-    : parseInt(squareMetreElement.textContent.split('m²')[0].replace(/\s+/g, ''));
+export default function getPricePerSquareMeter(squareMeterElement, basePrice, priceList) {
+  const squareMetres = squareMeterElement.textContent.includes('-')
+    ? parseInt(squareMeterElement.textContent.split('-')[1])
+    : parseInt(squareMeterElement.textContent.split('m²')[0].replace(/\s+/g, ''));
   const finalBasenumber = extractPrice(basePrice, priceList);
-  const inPrice = finalBasenumber / squareMetres;
-  const pricePerSquareMetre = formatPricePretty(inPrice);
+  const baseCalculatedPrice = finalBasenumber / squareMetres;
+  const pricePerSquareMetre = formatPricePretty(baseCalculatedPrice);
   return pricePerSquareMetre;
 }
