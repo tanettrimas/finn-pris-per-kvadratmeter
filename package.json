@@ -6,7 +6,8 @@
   "scripts": {
     "start": "web-ext run --source-dir ./dist --target=chromium",
     "start:firefox": "web-ext run --source-dir ./dist",
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "jest",
+    "test:watch": "jest --watch",
     "update": "node scripts/updateVersion.js",
     "build": "webpack --mode=production",
     "watch": "webpack --mode=development --watch",
@@ -28,8 +29,12 @@
   "homepage": "https://github.com/tanettrimas/finn-pris-per-kvadratmeter#readme",
   "dependencies": {},
   "devDependencies": {
+    "@babel/preset-env": "^7.10.2",
+    "@types/jest": "^26.0.0",
+    "babel-jest": "^26.0.1",
     "chrome-webstore-upload-cli": "^1.2.0",
     "copy-webpack-plugin": "^6.0.1",
+    "jest": "^26.0.1",
     "terser-webpack-plugin": "^3.0.1",
     "web-ext": "^4.2.0",
     "web-ext-submit": "4.2.0",
