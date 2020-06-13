@@ -1,7 +1,6 @@
 const packageJSON = require('../package.json')
 const { changeVersionNumber } = require('../utils/release/changeVersionNumber')
 const { updateManifest, updatePackageJson } = require('../utils/release/updateVersionFiles')
-const [,,command, value] = process.argv;
 
 const updatedVersionNumber = changeVersionNumber(packageJSON, value)
 
