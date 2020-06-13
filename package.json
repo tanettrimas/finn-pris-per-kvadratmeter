@@ -1,6 +1,6 @@
 {
   "name": "finn-prisperkvm",
-  "version": "1.0.13",
+  "version": "1.0.14",
   "description": "This is a chrome extension which will add price per square metre of every house or apartment card which is located at Finn.no > Boliger til salgs. It will not target houses that are already sold or campaign ads. It is now publicly available at https://chrome.google.com/webstore/detail/finn-pris-per-kvadratmete/jgibjmffohmjhcjhdoibhfaalmnbnofm and https://addons.mozilla.org/nb-NO/firefox/addon/finn-pris-per-kvadratmeter/",
   "main": "src/prisPerKvm.js",
   "scripts": {
