@@ -1,4 +1,12 @@
 export default function formatPricePretty(price) {
+  if (!price) {
+    throw new Error('No price parameter provided')
+  }
+
+  if (typeof price !== 'number' && typeof price !== 'string') {
+    throw new Error('Invalid property price, must be a number or string-representation of number')
+  }
+  
   const initialPrice = price.toFixed(0)
   const priceArray = initialPrice.split('')
   let finalPrice = ''
