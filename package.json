@@ -27,9 +27,13 @@
     "url": "https://github.com/tanettrimas/finn-pris-per-kvadratmeter/issues"
   },
   "homepage": "https://github.com/tanettrimas/finn-pris-per-kvadratmeter#readme",
-  "dependencies": {},
+  "dependencies": {
+    "@entur/sdk": "^1.7.2",
+    "axios": "^0.19.2"
+  },
   "devDependencies": {
     "@babel/preset-env": "^7.10.2",
+    "@types/axios": "^0.14.0",
     "@types/jest": "^26.0.0",
     "babel-jest": "^26.0.1",
     "chrome-webstore-upload-cli": "^1.2.0",
@@ -40,7 +44,7 @@
     "puppeteer": "^4.0.0",
     "serve": "^11.3.2",
     "terser-webpack-plugin": "^3.0.1",
-    "web-ext": "^4.2.0",
+    "web-ext": "^4.3.0",
     "web-ext-submit": "4.2.0",
     "web-ext-webpack-plugin": "github:tanettrimas/web-ext-webpack-plugin",
     "webpack": "4.43.0",
