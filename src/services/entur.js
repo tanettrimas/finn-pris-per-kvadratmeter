@@ -9,6 +9,34 @@ const journeyPlannerService = createEnturService({
   clientName: "tanettrimas-finnprisperkvadratmeter",
 });
 
+export async function getTripSuggestions(address) {
+  const placeSuggestions = await journeyPlannerService.getFeatures(address)
+  return placeSuggestions.map(extractMetadata)
+}
+
+function extractMetadata(place) {
+  const { geometry: { coordinates: [lng, lat] }, properties: {
+    name,
+    label, 
+    category,
+    street, 
+    housenumber,
+    source_id
+  }} = place
+  return {
+    coordinates: {
+      latitude: lat,
+      longitude: lng
+    },
+    name, 
+    label,
+    category, 
+    street,
+    housenumber,
+    place: source_id
+  }
+}
+
 async function getBaseTripInformation(fromPlace, toPlace) {
   try {
     const [fromData, toData] = await Promise.all([journeyPlannerService.getFeatures(fromPlace), journeyPlannerService.getFeatures(toPlace)])
@@ -58,6 +86,7 @@ async function getBaseTripInformation(fromPlace, toPlace) {
 
 export default async function findTrips(from, to) {
   try {
+    // Check localstorage here first
     const baseTripData = await getBaseTripInformation(from, to);
     const [trips, non_transit] = await Promise.all([journeyPlannerService.getTripPatterns(baseTripData.baseTripMetadata), getNonTransit(baseTripData.baseTripMetadata)]) 
     const nonTransitTrip = Object.keys(non_transit.tripPatterns).reduce((acc, key) => {
@@ -77,8 +106,7 @@ export default async function findTrips(from, to) {
       return acc
     }, {})
     const tripData = trips.map(({ legs, startTime, endTime, duration }) => {
-      const stages = legs.map(({ distance, mode, fromPlace, toPlace, line, duration }) => {
-        const ext = {
+      const stages = legs.map(({ distance, mode, fromPlace, toPlace, line, duration }) => ({
           distance: Math.floor(distance),
           minutes: secondsToMinutes(duration),
           mode,
@@ -102,9 +130,7 @@ export default async function findTrips(from, to) {
             lineId: line.id,
             ...(line.notices.length && line.notices)
           })
-        }
-        return ext
-      })
+      }))
       return {
         destinations: baseTripData.destinations,
         transit: {

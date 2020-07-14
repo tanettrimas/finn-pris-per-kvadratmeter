@@ -1,5 +1,11 @@
-import setPricesInDOM from './helpers/setPricesInDOM'
+import setPricesInDOM from './helpers/dom/setPricesInDOM'
+import setTransportButton from './helpers/dom/setTransportButton'
 import getPricePerSquareMeter from './getPricePerSquareMeter'
+import { getItemFromStorage, setItemInStorage } from './localStorage'
+// setItemInStorage('tester', {key: 'value'})
+// if (getItemFromStorage('tester') !== null) {
+//   console.log('VALUE IS THERE!!!!!')
+// }
 
 const adList = document.querySelector('.ads--list')
 const RENDER_CHECK = 10;
@@ -24,7 +30,6 @@ const mutationObserver = new MutationObserver(mutations => {
 
   function main() {
     const housingCardList = document.querySelectorAll('article > .ads__unit__content')
-    
     for (const housingCard of housingCardList) {
       try {
         const alreadyAppended = housingCard.querySelector('.priceSqm')
@@ -59,6 +64,11 @@ const mutationObserver = new MutationObserver(mutations => {
         const pricePerSquareMetre = getPricePerSquareMeter(squareMeterElement, basePrice, priceList);
 
         setPricesInDOM(pricePerSquareMetre, housingCard)
+        // const aTestDiv = document.createElement('div')
+        // aTestDiv.classList.add('mySimpleTest')
+        // adList.append(aTestDiv)
+
+        setTransportButton(housingCard)
       } catch (error) { 
         console.error(error)
         break;

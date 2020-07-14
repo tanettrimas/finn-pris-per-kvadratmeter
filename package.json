@@ -38,6 +38,7 @@
     "babel-jest": "^26.0.1",
     "chrome-webstore-upload-cli": "^1.2.0",
     "copy-webpack-plugin": "^6.0.1",
+    "esm": "^3.2.25",
     "expect-puppeteer": "^4.4.0",
     "jest": "^26.0.1",
     "jest-puppeteer": "^4.4.0",
