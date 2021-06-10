@@ -5,3 +5,5 @@ This is a chrome extension which will add price per square metre of every house 
 If you have any thoughts, issues, questions or just want to contribute: Just feel free to clone the repo and make a pull request!
 
 The project has been feature in this news article: https://www.kode24.no/guider/slik-lagde-tanet-en-chrome-utvidelse/72478406
+
+To upload the extension: https://github.com/DrewML/chrome-webstore-upload/blob/master/How%20to%20generate%20Google%20API%20keys.md
