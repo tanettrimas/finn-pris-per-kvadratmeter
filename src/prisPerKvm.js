@@ -1,26 +1,19 @@
 import setPricesInDOM from './helpers/setPricesInDOM'
 import getPricePerSquareMeter from './getPricePerSquareMeter'
 
-const adList = document.querySelector('.ads--list')
-const RENDER_CHECK = 10;
-// Observer for catching DOM changes
-const mutationObserver = new MutationObserver(mutations => {
-  let removedCount = 0
-  let addedCount = 0;
-  mutations.forEach((mutation) => {
-    if (mutation.removedNodes.length) {
-      ++removedCount
-    }
-
-    if (mutation.addedNodes.length) {
-      ++addedCount
-    }
+let buttons = document.getElementsByClassName("button")
+for (var i = 0; i < buttons.length; i++) {
+  buttons[i].addEventListener('click', function (event) {
+    setTimeout(() => { main(); }, 5000);
   });
-  // Pageturn or filter changes will re-render the main function if more than 10 items are removed or added
-    if (removedCount > RENDER_CHECK || addedCount > RENDER_CHECK) {
-      main()
-    }
-});
+}
+
+let inputs = document.getElementsByTagName("input")
+for (var i = 0; i < inputs.length; i++) {
+  inputs[i].addEventListener('click', function (event) {
+    setTimeout(() => { main(); }, 3000);
+  });
+}
 
   function main() {
     const housingCardList = document.querySelectorAll('article > .ads__unit__content')
@@ -67,5 +60,3 @@ const mutationObserver = new MutationObserver(mutations => {
   }
 
   main()
-
-  mutationObserver.observe(adList, { childList: true })
