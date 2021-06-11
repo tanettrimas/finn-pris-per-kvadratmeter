@@ -17,11 +17,13 @@
         "https://www.finn.no/realestate/leisureplots/search.html*",
         "https://www.finn.no/realestate/businesssale/search.html*"
       ],
-      "js": [
-        "prisPerKvm.js"
-      ]
+      "js": ["prisPerKvm.js"]
     }
   ],
   "author": "Tanet Trimas",
+  "permissions": [
+    "https://api.entur.io/*",
+    "https://jsonplaceholder.typicode.com/users"
+  ],
   "homepage_url": "https://github.com/tanettrimas/finn-pris-per-kvadratmeter"
 }
