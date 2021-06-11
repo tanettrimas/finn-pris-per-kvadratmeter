@@ -1,4 +1,3 @@
-import findTrips from "../../services/entur";
 export default function setTransportButton(housingCard) {
     const buttonDiv = document.createElement('div')
     const buttonElement = document.createElement('button')
@@ -21,7 +20,7 @@ export default function setTransportButton(housingCard) {
     })
 
     buttonElement.addEventListener('click', () => {
-        findTrips("Oslo", "Bergen");
+        console.log('hello')
     })
 
     buttonDiv.append(buttonElement)
