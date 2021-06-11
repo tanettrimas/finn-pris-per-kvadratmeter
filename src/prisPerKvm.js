@@ -78,12 +78,8 @@ function main() {
       );
 
       setPricesInDOM(pricePerSquareMetre, housingCard);
-      // const aTestDiv = document.createElement('div')
-      // aTestDiv.classList.add('mySimpleTest')
-      // adList.append(aTestDiv)
-
       createTransportButton(housingCard, () => {
-        findTrips("Karenslyst alle 56", "Montebellobakken 3A");
+        //findTrips("Karenslyst alle 56", "Montebellobakken 3A");
       });
     } catch (error) {
       console.error(error);
