@@ -1,4 +1,4 @@
-export default function setTransportButton(housingCard, callback) {
+export default function createTransportButton(housingCard, callback) {
   const buttonDiv = document.createElement("div");
   const buttonElement = document.createElement("button");
 

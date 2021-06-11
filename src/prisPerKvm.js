@@ -1,5 +1,5 @@
 import setPricesInDOM from "./helpers/dom/setPricesInDOM";
-import setTransportButton from "./helpers/dom/setTransportButton";
+import createTransportButton from "./helpers/dom/setTransportButton";
 import getPricePerSquareMeter from "./getPricePerSquareMeter";
 import findTrips from "./services/entur";
 import { getItemFromStorage, setItemInStorage } from "./localStorage";
@@ -82,7 +82,7 @@ function main() {
       // aTestDiv.classList.add('mySimpleTest')
       // adList.append(aTestDiv)
 
-      setTransportButton(housingCard, () => {
+      createTransportButton(housingCard, () => {
         findTrips("Karenslyst alle 56", "Montebellobakken 3A");
       });
     } catch (error) {
