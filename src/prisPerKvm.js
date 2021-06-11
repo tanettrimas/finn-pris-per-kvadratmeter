@@ -3,6 +3,7 @@ import createTransportButton from "./helpers/dom/setTransportButton";
 import getPricePerSquareMeter from "./getPricePerSquareMeter";
 import findTrips from "./services/entur";
 import { getItemFromStorage, setItemInStorage } from "./localStorage";
+import {TRIP_RESULTS} from "../utils/resources/tripResults";
 
 const adList = document.querySelector(".ads--list");
 const RENDER_CHECK = 10;
@@ -78,14 +79,71 @@ function main() {
       );
 
       setPricesInDOM(pricePerSquareMetre, housingCard);
-      createTransportButton(housingCard, () => {
-        //findTrips("Karenslyst alle 56", "Montebellobakken 3A");
+      createTransportButton(housingCard, async () => {
+        housingCard.getElementsByClassName("ads__unit__content__details")
+        const addressDiv = housingCard.querySelector(".ads__unit__content__details > div")
+        const data = await findTrips("Karenslyst alle 56", addressDiv.innerHTML);
+        setTripInfo(housingCard, data)
       });
+
     } catch (error) {
       console.error(error);
       break;
     }
   }
+}
+
+function setupIcons() {
+  let headID = document.getElementsByTagName('head')[0];
+  let link = document.createElement('link');
+  link.type = 'text/css';
+  link.rel = 'stylesheet';
+
+  link.href = 'https://fonts.googleapis.com/icon?family=Material+Icons';
+  headID.appendChild(link);
+}
+setupIcons()
+
+function setTripInfo(housingCard, data) {
+  const div = document.createElement('div')
+  div.textContent = "Avstand til " + data[0].destinations.from.name
+  div.classList.add('ads__unit__content__keys', 'timeBox')
+  housingCard.appendChild(div)
+
+  if (data[0].non_transit.bicycle != null) {
+    housingCard.appendChild(getDiv("directions_bike", data[0].non_transit.bicycle.duration))
+  }
+  if (data[0].non_transit.foot != null) {
+    housingCard.appendChild(getDiv("directions_walk", data[0].non_transit.foot.duration))
+  }
+  if (data[0].non_transit.car != null) {
+    housingCard.appendChild(getDiv("directions_car", data[0].non_transit.car.duration))
+  }
+  if (data[0].transit != null) {
+    housingCard.appendChild(getDiv("directions_bus", data[0].transit.duration))
+  }
+}
+
+function getDiv(iconName, time) {
+  const parentDiv = document.createElement('div')
+  const iconDiv = document.createElement('div')
+  const timeDiv = document.createElement('div')
+  parentDiv.classList.add('ads__unit__content__keys', 'timeBox')
+
+  timeDiv.textContent = time + "min"
+  iconDiv.append(getIcon(iconName))
+
+  parentDiv.append(iconDiv, timeDiv)
+
+  return parentDiv
+}
+
+function getIcon(name) {
+  let i = document.createElement("i");
+  i.className = "material-icons";
+  i.textContent = name;
+
+  return i;
 }
 
 main();
