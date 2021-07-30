@@ -2,8 +2,6 @@ import setPricesInDOM from "./helpers/dom/setPricesInDOM";
 import createTransportButton from "./helpers/dom/setTransportButton";
 import getPricePerSquareMeter from "./getPricePerSquareMeter";
 import findTrips from "./services/entur";
-import { getItemFromStorage, setItemInStorage } from "./localStorage";
-import {TRIP_RESULTS} from "../utils/resources/tripResults";
 
 const adList = document.querySelector(".ads--list");
 const RENDER_CHECK = 10;
@@ -30,6 +28,7 @@ function main() {
   const housingCardList = document.querySelectorAll(
     "article > .ads__unit__content"
   );
+  const addressInformationStorageRequest = browser.storage.local.get("address");
   for (const housingCard of housingCardList) {
     try {
       const alreadyAppended = housingCard.querySelector(".priceSqm");
@@ -79,13 +78,25 @@ function main() {
       );
 
       setPricesInDOM(pricePerSquareMetre, housingCard);
-      createTransportButton(housingCard, async () => {
-        housingCard.getElementsByClassName("ads__unit__content__details")
-        const addressDiv = housingCard.querySelector(".ads__unit__content__details > div")
-        const data = await findTrips("Karenslyst alle 56", addressDiv.innerHTML);
-        setTripInfo(housingCard, data)
+      addressInformationStorageRequest.then((addressData) => {
+        if (addressData && addressData.address && addressData.address.value) {
+          const storedAddress = addressData.address.value;
+          createTransportButton(housingCard, async () => {
+            const loaderDiv = document.createElement("div");
+            const addressDiv = housingCard.querySelector(
+              ".ads__unit__content__details > div"
+            );
+            loaderDiv.textContent = `Nå henter jeg reiseavstand mellom ${storedAddress} og ${addressDiv.innerHTML}... - bare å smøre seg med tålmodighetskrem :)`;
+            housingCard.appendChild(loaderDiv);
+            const data = await findTrips(storedAddress, addressDiv.innerHTML);
+            housingCard.removeChild(loaderDiv);
+            const calculateButton =
+              housingCard.querySelector(".button--transport");
+            setTripInfo(housingCard, data);
+            calculateButton.remove();
+          });
+        }
       });
-
     } catch (error) {
       console.error(error);
       break;
@@ -94,48 +105,54 @@ function main() {
 }
 
 function setupIcons() {
-  let headID = document.getElementsByTagName('head')[0];
-  let link = document.createElement('link');
-  link.type = 'text/css';
-  link.rel = 'stylesheet';
+  let headID = document.getElementsByTagName("head")[0];
+  let link = document.createElement("link");
+  link.type = "text/css";
+  link.rel = "stylesheet";
 
-  link.href = 'https://fonts.googleapis.com/icon?family=Material+Icons';
+  link.href = "https://fonts.googleapis.com/icon?family=Material+Icons";
   headID.appendChild(link);
 }
-setupIcons()
+setupIcons();
 
 function setTripInfo(housingCard, data) {
-  const div = document.createElement('div')
-  div.textContent = "Avstand til " + data[0].destinations.from.name
-  div.classList.add('ads__unit__content__keys', 'timeBox')
-  housingCard.appendChild(div)
+  const div = document.createElement("div");
+  div.textContent = "Avstand til " + data[0].destinations.from.name;
+  div.classList.add("ads__unit__content__keys", "timeBox");
+  housingCard.appendChild(div);
 
   if (data[0].non_transit.bicycle != null) {
-    housingCard.appendChild(getDiv("directions_bike", data[0].non_transit.bicycle.duration))
+    housingCard.appendChild(
+      getDiv("directions_bike", data[0].non_transit.bicycle.duration)
+    );
   }
   if (data[0].non_transit.foot != null) {
-    housingCard.appendChild(getDiv("directions_walk", data[0].non_transit.foot.duration))
+    housingCard.appendChild(
+      getDiv("directions_walk", data[0].non_transit.foot.duration)
+    );
   }
   if (data[0].non_transit.car != null) {
-    housingCard.appendChild(getDiv("directions_car", data[0].non_transit.car.duration))
+    housingCard.appendChild(
+      getDiv("directions_car", data[0].non_transit.car.duration)
+    );
   }
   if (data[0].transit != null) {
-    housingCard.appendChild(getDiv("directions_bus", data[0].transit.duration))
+    housingCard.appendChild(getDiv("directions_bus", data[0].transit.duration));
   }
 }
 
 function getDiv(iconName, time) {
-  const parentDiv = document.createElement('div')
-  const iconDiv = document.createElement('div')
-  const timeDiv = document.createElement('div')
-  parentDiv.classList.add('ads__unit__content__keys', 'timeBox')
+  const parentDiv = document.createElement("div");
+  const iconDiv = document.createElement("div");
+  const timeDiv = document.createElement("div");
+  parentDiv.classList.add("ads__unit__content__keys", "timeBox");
 
-  timeDiv.textContent = time + "min"
-  iconDiv.append(getIcon(iconName))
+  timeDiv.textContent = time + "min";
+  iconDiv.append(getIcon(iconName));
 
-  parentDiv.append(iconDiv, timeDiv)
+  parentDiv.append(iconDiv, timeDiv);
 
-  return parentDiv
+  return parentDiv;
 }
 
 function getIcon(name) {
