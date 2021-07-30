@@ -9,8 +9,9 @@
     "test": "jest",
     "test:watch": "jest --watch",
     "update": "node scripts/updateVersion.js",
-    "build": "webpack --mode=production",
-    "watch": "webpack --mode=development --watch",
+    "build": "webpack --mode=production && npm run copy-popup",
+    "watch": "npm run copy-popup && webpack --mode=development --watch",
+    "copy-popup": "cp ./src/popup/* ./dist",
     "release:amo": "web-ext-submit --source-dir dist --api-key=$WEB_EXT_API_KEY --api-secret=$WEB_EXT_API_SECRET --id=$WEB_EXT_ID",
     "release:cws": "webstore upload --source dist --extension-id $CHROME_APP_ID --client-id $CHROME_CLIENT_ID --client-secret $CHROME_CLIENT_SECRET --refresh-token $CHROME_REFRESH_TOKEN --auto-publish",
     "pack": "npm run update && npm run build",
@@ -27,7 +28,10 @@
     "url": "https://github.com/tanettrimas/finn-pris-per-kvadratmeter/issues"
   },
   "homepage": "https://github.com/tanettrimas/finn-pris-per-kvadratmeter#readme",
-  "dependencies": {},
+  "dependencies": {
+    "@entur/sdk": "^1.7.2",
+    "axios": "^0.19.2"
+  },
   "devDependencies": {
     "@babel/preset-env": "^7.14.5",
     "@types/jest": "^26.0.23",
