@@ -3,12 +3,13 @@ import createTransportButton from "./helpers/dom/setTransportButton";
 import getPricePerSquareMeter from "./getPricePerSquareMeter";
 import findTrips from "./services/entur";
 
-const adList = document.querySelector(".ads--list");
+const adList = document.querySelector(".ads");
 const RENDER_CHECK = 10;
 // Observer for catching DOM changes
 const mutationObserver = new MutationObserver((mutations) => {
   let removedCount = 0;
   let addedCount = 0;
+  console.log("is observing....");
   mutations.forEach((mutation) => {
     if (mutation.removedNodes.length) {
       ++removedCount;
@@ -163,6 +164,7 @@ function getIcon(name) {
   return i;
 }
 
-main();
-
+console.log("adlist", adList);
 mutationObserver.observe(adList, { childList: true });
+
+main();
