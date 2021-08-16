@@ -27,7 +27,12 @@ module.exports = {
       },
     }),
     new CopyPlugin({
-      patterns: [{ from: "icons", to: "icons" }],
+      patterns: [
+        { from: "icons", to: "icons" },
+        {
+          from: "../node_modules/webextension-polyfill/dist/browser-polyfill.js",
+        },
+      ],
     }),
   ],
   optimization: {
