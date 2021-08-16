@@ -34,7 +34,7 @@
   },
   "devDependencies": {
     "@babel/preset-env": "^7.14.5",
-    "@types/jest": "^26.0.23",
+    "@types/jest": "^27.0.0",
     "babel-jest": "^27.0.2",
     "chrome-webstore-upload-cli": "^1.2.1",
     "copy-webpack-plugin": "^9.0.0",
