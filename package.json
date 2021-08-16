@@ -1,6 +1,6 @@
 {
   "name": "finn-prisperkvm",
-  "version": "1.0.15",
+  "version": "1.0.16",
   "description": "This is a chrome extension which will add price per square metre of every house or apartment card which is located at Finn.no > Boliger til salgs. It will not target houses that are already sold or campaign ads. It is now publicly available at https://chrome.google.com/webstore/detail/finn-pris-per-kvadratmete/jgibjmffohmjhcjhdoibhfaalmnbnofm and https://addons.mozilla.org/nb-NO/firefox/addon/finn-pris-per-kvadratmeter/",
   "main": "src/prisPerKvm.js",
   "scripts": {
@@ -15,7 +15,7 @@
     "release:amo": "web-ext-submit --source-dir dist --api-key=$WEB_EXT_API_KEY --api-secret=$WEB_EXT_API_SECRET --id=$WEB_EXT_ID",
     "release:cws": "webstore upload --source dist --extension-id $CHROME_APP_ID --client-id $CHROME_CLIENT_ID --client-secret $CHROME_CLIENT_SECRET --refresh-token $CHROME_REFRESH_TOKEN --auto-publish",
     "pack": "npm run update && npm run build",
-    "release": "npm run pack && npm run release:cws && npm run release:amo"
+    "release": "export $(cat .env | xargs) && npm run pack && npm run release:cws; npm run release:amo"
   },
   "repository": {
     "type": "git",
