@@ -18,19 +18,19 @@
         "https://www.finn.no/realestate/businesssale/search.html*"
       ],
       "js": [
+        "browser-polyfill.js",
         "prisPerKvm.js"
       ]
     }
   ],
   "browser_action": {
-    "default_title": "Tittel2",
+    "default_title": "Add your favorite address",
     "default_popup": "./popup.html",
     "browser_style": false
   },
   "author": "Tanet Trimas",
   "permissions": [
     "https://api.entur.io/*",
-    "https://jsonplaceholder.typicode.com/users",
     "activeTab",
     "storage",
     "tabs"
