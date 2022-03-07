@@ -29,7 +29,7 @@
   },
   "homepage": "https://github.com/tanettrimas/finn-pris-per-kvadratmeter#readme",
   "dependencies": {
-    "@entur/sdk": "^1.7.2",
+    "@entur/sdk": "^5.0.0",
     "axios": "^0.21.1"
   },
   "devDependencies": {
