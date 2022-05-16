@@ -30,7 +30,7 @@
   "homepage": "https://github.com/tanettrimas/finn-pris-per-kvadratmeter#readme",
   "dependencies": {
     "@entur/sdk": "^1.7.2",
-    "axios": "^0.21.1"
+    "axios": "^0.27.0"
   },
   "devDependencies": {
     "@babel/preset-env": "^7.14.5",
