@@ -41,7 +41,7 @@
     "dotenv": "^10.0.0",
     "expect-puppeteer": "^5.0.4",
     "jest": "^27.0.4",
-    "jest-puppeteer": "^5.0.4",
+    "jest-puppeteer": "^6.0.0",
     "puppeteer": "^10.0.0",
     "serve": "^12.0.0",
     "terser-webpack-plugin": "^5.1.3",
