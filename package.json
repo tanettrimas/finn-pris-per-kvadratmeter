@@ -39,7 +39,7 @@
     "chrome-webstore-upload-cli": "^1.2.1",
     "copy-webpack-plugin": "^9.0.0",
     "dotenv": "^10.0.0",
-    "expect-puppeteer": "^5.0.4",
+    "expect-puppeteer": "^6.0.0",
     "jest": "^27.0.4",
     "jest-puppeteer": "^5.0.4",
     "puppeteer": "^10.0.0",
